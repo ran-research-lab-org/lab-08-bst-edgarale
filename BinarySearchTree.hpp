@@ -1,3 +1,4 @@
+//Edgar A. Maldonado Ortiz
 #ifndef BINARY_SEARCH_TREE_H
 #define BINARY_SEARCH_TREE_H
 
@@ -5,6 +6,9 @@
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
+#include <queue>
+
+
 using namespace std;
 
 template <typename T> string toStr(const T &value) {
@@ -111,10 +115,39 @@ public:
   // Remove x from the tree. Nothing is done if x is not found.
   void remove(const Comparable &x) { remove(x, root); }
 
+  //Returns the tree in a format corresponding to the Breadth first traversal
   string BFT() const {
-    string st;
+    string st = "[[";
+    int level_counter = 1;
+    queue <pair<BinaryNode*, int>> Q;
+    if (root != nullptr) Q.push(make_pair(root,level_counter));
+    bool firstInLevel = true;
+    
+    while(!Q.empty()){
+      auto f = Q.front();
+      Q.pop();
+
+      if (f.second > level_counter ){
+        st += "],[";
+        level_counter = f.second;
+        firstInLevel = true;
+      }
+
+      if (!firstInLevel) st += ",";
+      st += to_string(f.first -> element);
+      firstInLevel = false;
+
+      //Pushing the next values
+      if (f.first -> left != nullptr) Q.push(make_pair(f.first -> left, f.second +1));
+      if (f.first -> right != nullptr) Q.push(make_pair(f.first -> right, f.second +1));
+
+      
+    }
+
+    st += "]]" ;
+
     return st;
-  }
+  } 
 
 private:
   struct BinaryNode {
