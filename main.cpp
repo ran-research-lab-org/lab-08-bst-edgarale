@@ -1,3 +1,4 @@
+//Edgar A. Maldonado Ortiz
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "BinarySearchTree.hpp"
 #include "doctest.h"
